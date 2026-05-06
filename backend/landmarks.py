@@ -2,13 +2,9 @@ import cv2
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
-import pickle
+import os
 
 modelo_path = "backend/hand_landmarker.task"
-modelo_pkl = "backend/modelo/modelo.pkl"
-
-with open(modelo_pkl, 'rb') as f:
-    modelo = pickle.load(f)
 
 base_options = python.BaseOptions(model_asset_path=modelo_path)
 options = vision.HandLandmarkerOptions(
@@ -29,28 +25,23 @@ while cap.isOpened():
     mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
     result = detector.detect(mp_image)
 
-    letra = ""
-
     if result.hand_landmarks:
-        hand = result.hand_landmarks[0]
+        for hand in result.hand_landmarks:
+            for landmark in hand:
+                h, w, _ = frame.shape
+                cx, cy = int(landmark.x * w), int(landmark.y * h)
+                cv2.circle(frame, (cx, cy), 5, (0, 255, 0), -1)
 
-        # desenha os pontos na mão
-        for landmark in hand:
-            h, w, _ = frame.shape
-            cx, cy = int(landmark.x * w), int(landmark.y * h)
-            cv2.circle(frame, (cx, cy), 5, (0, 255, 0), -1)
+            connections = mp.tasks.vision.HandLandmarksConnections.HAND_CONNECTIONS
+            for connection in connections:
+                start = hand[connection.start]
+                end = hand[connection.end]
+                h, w, _ = frame.shape
+                x1, y1 = int(start.x * w), int(start.y * h)
+                x2, y2 = int(end.x * w), int(end.y * h)
+                cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
-        # reconhece a letra
-        row = []
-        for landmark in hand:
-            row += [landmark.x, landmark.y, landmark.z]
-        predicao = modelo.predict([row])
-        letra = predicao[0]
-
-    cv2.putText(frame, f'Letra: {letra}', (50, 80),
-                cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 3)
-
-    cv2.imshow('SINALIZA - Reconhecimento', frame)
+    cv2.imshow('SINALIZA - Landmarks', frame)
 
     if cv2.waitKey(5) & 0xFF == ord('q'):
         break

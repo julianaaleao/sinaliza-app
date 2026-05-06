@@ -1,8 +1,22 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import cv2
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import pickle
+import numpy as np
+import base64
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 modelo_path = "backend/hand_landmarker.task"
 modelo_pkl = "backend/modelo/modelo.pkl"
@@ -17,43 +31,24 @@ options = vision.HandLandmarkerOptions(
 )
 detector = vision.HandLandmarker.create_from_options(options)
 
-cap = cv2.VideoCapture(0)
-print("Pressione Q para sair")
+class ImagemRequest(BaseModel):
+    imagem: str
 
-while cap.isOpened():
-    ret, frame = cap.read()
-    if not ret:
-        break
-
+@app.post("/reconhecer")
+async def reconhecer(request: ImagemRequest):
+    img_bytes = base64.b64decode(request.imagem)
+    img_array = np.frombuffer(img_bytes, dtype=np.uint8)
+    frame = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
     result = detector.detect(mp_image)
 
-    letra = ""
-
     if result.hand_landmarks:
         hand = result.hand_landmarks[0]
-
-        # desenha os pontos na mão
-        for landmark in hand:
-            h, w, _ = frame.shape
-            cx, cy = int(landmark.x * w), int(landmark.y * h)
-            cv2.circle(frame, (cx, cy), 5, (0, 255, 0), -1)
-
-        # reconhece a letra
         row = []
         for landmark in hand:
             row += [landmark.x, landmark.y, landmark.z]
         predicao = modelo.predict([row])
-        letra = predicao[0]
+        return {"letra": predicao[0], "detectado": True}
 
-    cv2.putText(frame, f'Letra: {letra}', (50, 80),
-                cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 3)
-
-    cv2.imshow('SINALIZA - Reconhecimento', frame)
-
-    if cv2.waitKey(5) & 0xFF == ord('q'):
-        break
-
-cap.release()
-cv2.destroyAllWindows()
+    return {"letra": "", "detectado": False}
