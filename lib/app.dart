@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 import 'registro.dart';
 import 'camera.dart';
-import 'historico.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -21,8 +20,7 @@ class App extends StatelessWidget {
       routes: {
         '/login': (context) => LoginPage(),
         '/registro': (context) => RegistroPage(),
-        '/camera': (context) => CameraPage(),
-        '/historico': (context) => HistoricoPage(),
+        '/camera': (context) => const CameraPage(),
       },
       initialRoute: '/login',
     );

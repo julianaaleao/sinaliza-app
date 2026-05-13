@@ -4,6 +4,8 @@ import 'dart:ui_web' as ui;
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -56,6 +58,20 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
+  Future<void> _salvarNoFirestore(String letra) async {
+    final usuario = FirebaseAuth.instance.currentUser;
+    if (usuario == null) return;
+    try {
+      await FirebaseFirestore.instance.collection('historico').add({
+        'uid': usuario.uid,
+        'letra': letra,
+        'data': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      print('Erro ao salvar: $e');
+    }
+  }
+
   Future<void> _capturarEEnviar() async {
     if (_video == null || _canvas == null) return;
     try {
@@ -74,6 +90,7 @@ class _CameraPageState extends State<CameraPage> {
         final data = jsonDecode(response.body);
         if (data['detectado'] == true) {
           setState(() => _resultado = data['letra']);
+          await _salvarNoFirestore(data['letra']);
         }
       }
     } catch (e) {
@@ -97,12 +114,20 @@ class _CameraPageState extends State<CameraPage> {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: () => Navigator.pushNamed(context, '/historico'),
+            onPressed: () {
+              final usuario = FirebaseAuth.instance.currentUser;
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => _HistoricoModal(uid: usuario?.uid),
+              );
+            },
             icon: const Icon(Icons.history),
           ),
           IconButton(
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, '/login'),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.pushReplacementNamed(context, '/login');
+            },
             icon: const Icon(Icons.logout),
           ),
         ],
@@ -145,6 +170,63 @@ class _CameraPageState extends State<CameraPage> {
                 backgroundColor: _ativo ? Colors.red : Colors.deepPurple,
                 foregroundColor: Colors.white,
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HistoricoModal extends StatelessWidget {
+  final String? uid;
+  const _HistoricoModal({this.uid});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 400,
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Text(
+            'Histórico',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.deepPurple,
+            ),
+          ),
+          SizedBox(height: 16),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('historico')
+                  .where('uid', isEqualTo: uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text('Nenhuma tradução ainda!'));
+                }
+                final docs = snapshot.data!.docs;
+                return ListView.builder(
+                  itemCount: docs.length,
+                  itemBuilder: (context, index) {
+                    final item =
+                        docs[index].data() as Map<String, dynamic>;
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.deepPurple,
+                        child: Text(
+                          item['letra'],
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      title: Text('Vogal: ${item['letra']}'),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],
