@@ -74,6 +74,23 @@ class LoginPage extends StatelessWidget {
               onPressed: () => Navigator.pushNamed(context, '/registro'),
               child: Text('Criar conta'),
             ),
+            TextButton(
+              onPressed: () async {
+                if (txtEmail.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Digite seu e-mail primeiro!')),
+                  );
+                  return;
+                }
+                await FirebaseAuth.instance.sendPasswordResetEmail(
+                  email: txtEmail.text.trim(),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('E-mail de recuperação enviado!')),
+                );
+              },
+              child: Text('Esqueci minha senha'),
+            ),
           ],
         ),
       ),
