@@ -152,6 +152,26 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
+                    TextButton(
+                    onPressed: () async {
+                      if (txtEmail.text.trim().isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Digite seu e-mail primeiro!')),
+                        );
+                        return;
+                      }
+                      await FirebaseAuth.instance.sendPasswordResetEmail(
+                        email: txtEmail.text.trim(),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('E-mail de recuperação enviado!')),
+                      );
+                    },
+                    child: const Text(
+                      'Esqueci minha senha',
+                      style: TextStyle(color: Color(0xFF534AB7), fontSize: 14),
+                    ),
+                  ),
 
                     // Link criar conta
                     Row(
