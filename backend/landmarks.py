@@ -13,7 +13,7 @@ options = vision.HandLandmarkerOptions(
 )
 detector = vision.HandLandmarker.create_from_options(options)
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 print("Pressione Q para sair")
 
 while cap.isOpened():

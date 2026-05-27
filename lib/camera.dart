@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -81,7 +82,7 @@ class _CameraPageState extends State<CameraPage> {
       final base64Img = dataUrl.split(',')[1];
 
       final response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/reconhecer'),
+        Uri.parse(kIsWeb ? 'http://127.0.0.1:8000/reconhecer' : 'http://10.0.2.2:8000/reconhecer'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'imagem': base64Img}),
       );
