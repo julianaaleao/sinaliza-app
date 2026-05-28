@@ -36,24 +36,20 @@ class RegistroPage extends StatelessWidget {
                       controller: txtNome,
                       decoration: InputDecoration(
                         hintText: 'Nome',
-                        prefixIcon:
-                            const Icon(Icons.person_outlined, color: Colors.grey),
+                        prefixIcon: const Icon(Icons.person_outlined, color: Colors.grey),
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFF534AB7)),
+                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
                         ),
                       ),
                     ),
@@ -61,24 +57,20 @@ class RegistroPage extends StatelessWidget {
                       controller: txtEmail,
                       decoration: InputDecoration(
                         hintText: 'E-mail',
-                        prefixIcon:
-                            const Icon(Icons.email_outlined, color: Colors.grey),
+                        prefixIcon: const Icon(Icons.email_outlined, color: Colors.grey),
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFF534AB7)),
+                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
                         ),
                       ),
                     ),
@@ -87,24 +79,20 @@ class RegistroPage extends StatelessWidget {
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Senha',
-                        prefixIcon: const Icon(Icons.lock_outline,
-                            color: Colors.grey),
+                        prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFF534AB7)),
+                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
                         ),
                       ),
                     ),
@@ -125,10 +113,10 @@ class RegistroPage extends StatelessWidget {
                               ..pop()
                               ..pushReplacementNamed('/camera');
                           } catch (e) {
+                            print('ERRO REGISTRO: $e');
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(
-                                    'Erro ao criar conta. Tente novamente!'),
+                                content: Text('Erro: $e'),
                                 backgroundColor: Colors.red,
                               ),
                             );
@@ -144,8 +132,7 @@ class RegistroPage extends StatelessWidget {
                         ),
                         child: const Text(
                           'Registrar',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),

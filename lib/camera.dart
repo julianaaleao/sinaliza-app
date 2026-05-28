@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'dart:html' as html;
-import 'dart:ui_web' as ui;
+import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+
+import 'camera_stub.dart'
+    if (dart.library.html) 'camera_web_impl.dart'
+    if (dart.library.io) 'camera_android.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -18,34 +20,12 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   String _resultado = '';
   bool _ativo = false;
-  html.VideoElement? _video;
-  html.CanvasElement? _canvas;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _configurarCamera();
-  }
-
-  void _configurarCamera() {
-    _video = html.VideoElement()
-      ..autoplay = true
-      ..style.width = '100%'
-      ..style.height = '100%'
-      ..style.objectFit = 'cover';
-
-    _canvas = html.CanvasElement(width: 640, height: 480);
-
-    html.window.navigator.mediaDevices
-        ?.getUserMedia({'video': true, 'audio': false}).then((stream) {
-      _video!.srcObject = stream;
-    });
-
-    ui.platformViewRegistry.registerViewFactory(
-      'camera-view',
-      (int viewId) => _video!,
-    );
+    initCamera();
   }
 
   void _toggleCamera() {
@@ -74,15 +54,16 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future<void> _capturarEEnviar() async {
-    if (_video == null || _canvas == null) return;
     try {
-      final ctx = _canvas!.context2D;
-      ctx.drawImageScaled(_video!, 0, 0, 640, 480);
-      final dataUrl = _canvas!.toDataUrl('image/jpeg', 0.8);
-      final base64Img = dataUrl.split(',')[1];
+      final base64Img = await capturarFrame(null, null);
+      if (base64Img == null) return;
+
+      final apiUrl = kIsWeb
+          ? 'http://127.0.0.1:8000/reconhecer'
+          : 'http://10.0.2.2:8000/reconhecer';
 
       final response = await http.post(
-        Uri.parse(kIsWeb ? 'http://127.0.0.1:8000/reconhecer' : 'http://10.0.2.2:8000/reconhecer'),
+        Uri.parse(apiUrl),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'imagem': base64Img}),
       );
@@ -102,7 +83,6 @@ class _CameraPageState extends State<CameraPage> {
   @override
   void dispose() {
     _timer?.cancel();
-    _video?.srcObject = null;
     super.dispose();
   }
 
@@ -137,7 +117,7 @@ class _CameraPageState extends State<CameraPage> {
         children: [
           Expanded(
             flex: 5,
-            child: HtmlElementView(viewType: 'camera-view'),
+            child: buildCameraView(),
           ),
           Container(
             width: double.infinity,
@@ -147,7 +127,7 @@ class _CameraPageState extends State<CameraPage> {
               children: [
                 Text(
                   _resultado.isEmpty ? '...' : _resultado,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 60,
                     fontWeight: FontWeight.bold,
                     color: Colors.deepPurple,
@@ -187,10 +167,10 @@ class _HistoricoModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Histórico',
             style: TextStyle(
               fontSize: 20,
@@ -198,7 +178,7 @@ class _HistoricoModal extends StatelessWidget {
               color: Colors.deepPurple,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
@@ -207,7 +187,7 @@ class _HistoricoModal extends StatelessWidget {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return Center(child: Text('Nenhuma tradução ainda!'));
+                  return const Center(child: Text('Nenhuma tradução ainda!'));
                 }
                 final docs = snapshot.data!.docs;
                 return ListView.builder(
@@ -220,7 +200,7 @@ class _HistoricoModal extends StatelessWidget {
                         backgroundColor: Colors.deepPurple,
                         child: Text(
                           item['letra'],
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                       title: Text('Vogal: ${item['letra']}'),

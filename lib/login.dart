@@ -21,7 +21,6 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Ícone
                     Container(
                       width: 80,
                       height: 80,
@@ -36,8 +35,6 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // Título
                     const Text(
                       'Olá!',
                       style: TextStyle(
@@ -55,66 +52,52 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 36),
-
-                    // Campo email
                     TextField(
                       controller: txtEmail,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         hintText: 'E-mail',
-                        prefixIcon:
-                            const Icon(Icons.email_outlined, color: Colors.grey),
+                        prefixIcon: const Icon(Icons.email_outlined, color: Colors.grey),
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFF534AB7)),
+                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
                         ),
                       ),
                     ),
                     const SizedBox(height: 12),
-
-                    // Campo senha
                     TextField(
                       controller: txtSenha,
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Senha',
-                        prefixIcon:
-                            const Icon(Icons.lock_outline, color: Colors.grey),
+                        prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE8E8E8)),
+                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Color(0xFF534AB7)),
+                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
                         ),
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    // Botão entrar
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -126,11 +109,13 @@ class LoginPage extends StatelessWidget {
                               email: txtEmail.text.trim(),
                               password: txtSenha.text.trim(),
                             );
+                            print('LOGIN OK - navegando para camera');
                             Navigator.pushReplacementNamed(context, '/camera');
                           } catch (e) {
+                            print('ERRO LOGIN: $e');
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('E-mail ou senha incorretos!'),
+                              SnackBar(
+                                content: Text('Erro: $e'),
                                 backgroundColor: Colors.red,
                               ),
                             );
@@ -146,34 +131,31 @@ class LoginPage extends StatelessWidget {
                         ),
                         child: const Text(
                           'Entrar',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
                     const SizedBox(height: 16),
                     TextButton(
-                    onPressed: () async {
-                      if (txtEmail.text.trim().isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Digite seu e-mail primeiro!')),
+                      onPressed: () async {
+                        if (txtEmail.text.trim().isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Digite seu e-mail primeiro!')),
+                          );
+                          return;
+                        }
+                        await FirebaseAuth.instance.sendPasswordResetEmail(
+                          email: txtEmail.text.trim(),
                         );
-                        return;
-                      }
-                      await FirebaseAuth.instance.sendPasswordResetEmail(
-                        email: txtEmail.text.trim(),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('E-mail de recuperação enviado!')),
-                      );
-                    },
-                    child: const Text(
-                      'Esqueci minha senha',
-                      style: TextStyle(color: Color(0xFF534AB7), fontSize: 14),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('E-mail de recuperação enviado!')),
+                        );
+                      },
+                      child: const Text(
+                        'Esqueci minha senha',
+                        style: TextStyle(color: Color(0xFF534AB7), fontSize: 14),
+                      ),
                     ),
-                  ),
-
-                    // Link criar conta
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
