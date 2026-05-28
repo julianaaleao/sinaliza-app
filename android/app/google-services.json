@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "951334663504",
+    "project_id": "sinaliza-ee0ad",
+    "storage_bucket": "sinaliza-ee0ad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951334663504:android:f9f6ea1e2721a9e2f66855",
+        "android_client_info": {
+          "package_name": "com.example.sinaliza"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfHLFaBHQIu3HTcnr_24O-6R2aPwzAIik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
