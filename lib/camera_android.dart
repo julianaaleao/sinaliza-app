@@ -35,6 +35,13 @@ class _AndroidCameraViewState extends State<_AndroidCameraView> {
   }
 
   @override
+  void dispose() {
+    _ctrl?.dispose();
+    _ctrl = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (_ctrl == null || !_ctrl!.value.isInitialized) {
       return const Center(child: CircularProgressIndicator());
