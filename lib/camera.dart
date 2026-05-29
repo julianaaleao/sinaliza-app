@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -9,6 +8,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'camera_stub.dart'
     if (dart.library.html) 'camera_web_impl.dart'
     if (dart.library.io) 'camera_android.dart';
+
+// 🔧 Mude só este IP quando trocar de rede
+const String _ip = '192.168.0.238';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -20,12 +22,18 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   String _resultado = '';
   bool _ativo = false;
+  bool _carregando = true;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    initCamera();
+    _iniciar();
+  }
+
+  Future<void> _iniciar() async {
+    await initCamera();
+    if (mounted) setState(() => _carregando = false);
   }
 
   void _toggleCamera() {
@@ -58,12 +66,8 @@ class _CameraPageState extends State<CameraPage> {
       final base64Img = await capturarFrame(null, null);
       if (base64Img == null) return;
 
-      final apiUrl = kIsWeb
-          ? 'http://127.0.0.1:8000/reconhecer'
-          : 'http://10.0.2.2:8000/reconhecer';
-
       final response = await http.post(
-        Uri.parse(apiUrl),
+        Uri.parse('http://$_ip:8000/reconhecer'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'imagem': base64Img}),
       );
@@ -117,7 +121,9 @@ class _CameraPageState extends State<CameraPage> {
         children: [
           Expanded(
             flex: 5,
-            child: buildCameraView(),
+            child: _carregando
+                ? const Center(child: CircularProgressIndicator())
+                : buildCameraView(),
           ),
           Container(
             width: double.infinity,
@@ -143,7 +149,7 @@ class _CameraPageState extends State<CameraPage> {
           Padding(
             padding: const EdgeInsets.all(12),
             child: ElevatedButton.icon(
-              onPressed: _toggleCamera,
+              onPressed: _carregando ? null : _toggleCamera,
               icon: Icon(_ativo ? Icons.stop : Icons.play_arrow),
               label: Text(_ativo ? 'Parar' : 'Iniciar reconhecimento'),
               style: ElevatedButton.styleFrom(

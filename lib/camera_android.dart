@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:convert';
 
 CameraController? _ctrl;
+bool _inicializando = false;
 
 Future<void> initCamera() async {
+  if (_ctrl != null && _ctrl!.value.isInitialized) return;
+  if (_inicializando) return;
+  _inicializando = true;
+
+  final status = await Permission.camera.request();
+  if (!status.isGranted) {
+    _inicializando = false;
+    return;
+  }
+
   final cameras = await availableCameras();
-  if (cameras.isEmpty) return;
+  if (cameras.isEmpty) {
+    _inicializando = false;
+    return;
+  }
+
   _ctrl = CameraController(cameras.first, ResolutionPreset.medium);
   await _ctrl!.initialize();
+  _inicializando = false;
 }
 
 Widget buildCameraView() {
@@ -26,11 +43,17 @@ class _AndroidCameraViewState extends State<_AndroidCameraView> {
   @override
   void initState() {
     super.initState();
-    _init();
+    _esperar(); // só espera, não chama initCamera() de novo
   }
 
-  Future<void> _init() async {
-    await initCamera();
+  Future<void> _esperar() async {
+    for (int i = 0; i < 30; i++) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      if (_ctrl != null && _ctrl!.value.isInitialized) {
+        if (mounted) setState(() {});
+        return;
+      }
+    }
     if (mounted) setState(() {});
   }
 
