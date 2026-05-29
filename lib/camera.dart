@@ -62,6 +62,7 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future<void> _capturarEEnviar() async {
+    if (!mounted) return;
     try {
       final base64Img = await capturarFrame(null, null);
       if (base64Img == null) return;
@@ -72,11 +73,18 @@ class _CameraPageState extends State<CameraPage> {
         body: jsonEncode({'imagem': base64Img}),
       );
 
+      if (!mounted) return;
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        if (data['detectado'] == true) {
-          setState(() => _resultado = data['letra']);
-          await _salvarNoFirestore(data['letra']);
+        final detectado = data['detectado'] as bool? ?? false;
+        final letra = data['letra'] as String? ?? '';
+
+        if (detectado && letra.isNotEmpty) {
+          setState(() {
+            _resultado = letra;
+          });
+          await _salvarNoFirestore(letra);
         }
       }
     } catch (e) {
