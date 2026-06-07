@@ -10,7 +10,7 @@ import 'camera_stub.dart'
     if (dart.library.io) 'camera_android.dart';
 
 // Mude só este IP quando trocar de rede
-const String _ip = 'sinaliza-api.azurewebsites.net';
+const String _ip = 'sinaliza-app-production.up.railway.app';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
