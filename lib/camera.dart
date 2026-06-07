@@ -9,8 +9,8 @@ import 'camera_stub.dart'
     if (dart.library.html) 'camera_web_impl.dart'
     if (dart.library.io) 'camera_android.dart';
 
-// 🔧 Mude só este IP quando trocar de rede
-const String _ip = '192.168.0.238';
+// Mude só este IP quando trocar de rede
+const String _ip = 'sinaliza-api.azurewebsites.net';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -68,7 +68,7 @@ class _CameraPageState extends State<CameraPage> {
       if (base64Img == null) return;
 
       final response = await http.post(
-        Uri.parse('http://$_ip:8000/reconhecer'),
+        Uri.parse('https://$_ip/reconhecer'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'imagem': base64Img}),
       );
