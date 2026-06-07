@@ -4,8 +4,12 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libgl1 \
     libxcb1 \
-    libxrender1 \
+    libxrender-dev \
     libxext6 \
+    libgles2 \
+    libegl1 \
+    libsm6 \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
