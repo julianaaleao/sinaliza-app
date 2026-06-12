@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'widgets/app_logo.dart';
+import 'widgets/app_card.dart';
+import 'widgets/app_button.dart';
+import 'widgets/app_icon.dart';
+import 'theme/app_colors.dart';
 
 class RegistroPage extends StatelessWidget {
   final txtNome = TextEditingController();
@@ -10,96 +15,109 @@ class RegistroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F8FF),
+      backgroundColor: AppColors.background,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: Column(
-                  spacing: 16,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Criar conta',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF26215C),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      controller: txtNome,
-                      decoration: InputDecoration(
-                        hintText: 'Nome',
-                        prefixIcon: const Icon(Icons.person_outlined, color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
-                        ),
-                      ),
-                    ),
-                    TextField(
-                      controller: txtEmail,
-                      decoration: InputDecoration(
-                        hintText: 'E-mail',
-                        prefixIcon: const Icon(Icons.email_outlined, color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const AppLogo(size: 72),
+                const SizedBox(height: 14),
+                Text(
+                  'Crie sua conta',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.displaySmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Comece a sinalizar em poucos passos',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: AppColors.textSecondary.withOpacity(0.7),
+                    letterSpacing: 0.1,
+                  ),
+                ),
+                const SizedBox(height: 40),
+                AppCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextField(
+                        controller: txtNome,
+                        textCapitalization: TextCapitalization.words,
+                        autofillHints: const [AutofillHints.name],
+                        decoration: InputDecoration(
+                          labelText: 'Nome',
+                          hintText: 'Seu nome completo',
+                          hintStyle: TextStyle(
+                            color: AppColors.textSecondary.withOpacity(0.35),
+                            fontSize: 13,
+                          ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: AppIcon(
+                              icon: AppIcons.user,
+                              size: 16,
+                              color: AppColors.support.withOpacity(0.8),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    TextField(
-                      controller: txtSenha,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'Senha',
-                        prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: txtEmail,
+                        keyboardType: TextInputType.emailAddress,
+                        autofillHints: const [AutofillHints.email],
+                        decoration: InputDecoration(
+                          labelText: 'E-mail',
+                          hintText: 'seuemail@exemplo.com',
+                          hintStyle: TextStyle(
+                            color: AppColors.textSecondary.withOpacity(0.35),
+                            fontSize: 13,
+                          ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: AppIcon(
+                              icon: AppIcons.mail,
+                              size: 16,
+                              color: AppColors.support.withOpacity(0.8),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: txtSenha,
+                        obscureText: true,
+                        autofillHints: const [AutofillHints.newPassword],
+                        decoration: InputDecoration(
+                          labelText: 'Senha',
+                          hintText: 'Crie uma senha segura',
+                          hintStyle: TextStyle(
+                            color: AppColors.textSecondary.withOpacity(0.35),
+                            fontSize: 13,
+                          ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: AppIcon(
+                              icon: AppIcons.lock,
+                              size: 16,
+                              color: AppColors.support.withOpacity(0.8),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 28),
+                      AppGradientButton(
+                        label: 'Registrar',
                         onPressed: () async {
                           try {
                             await FirebaseAuth.instance
@@ -111,43 +129,32 @@ class RegistroPage extends StatelessWidget {
                                 ?.updateDisplayName(txtNome.text.trim());
                             Navigator.of(context)
                               ..pop()
-                              ..pushReplacementNamed('/camera');
+                              ..pushReplacementNamed('/welcome');
                           } catch (e) {
-                            print('ERRO REGISTRO: $e');
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Erro: $e'),
-                                backgroundColor: Colors.red,
+                                backgroundColor: AppColors.error,
                               ),
                             );
                           }
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF534AB7),
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          'Registrar',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: TextButton.styleFrom(
-                        foregroundColor: const Color(0xFF534AB7),
-                      ),
-                      child: const Text('Voltar'),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: AppSecondaryButton(
+                    label: 'Voltar',
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+                const SizedBox(height: 48),
+              ],
+            ),
+          ),
         ),
       ),
     );

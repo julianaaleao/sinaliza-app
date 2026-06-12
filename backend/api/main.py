@@ -18,8 +18,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-modelo_path = "hand_landmarker.task"
-modelo_pkl = "modelo/modelo.pkl"
+modelo_path = "backend/api/hand_landmarker.task"
+modelo_pkl = "backend/modelo/modelo.pkl"
 
 with open(modelo_pkl, 'rb') as f:
     modelo = pickle.load(f)

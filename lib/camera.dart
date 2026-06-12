@@ -9,7 +9,10 @@ import 'camera_stub.dart'
     if (dart.library.html) 'camera_web_impl.dart'
     if (dart.library.io) 'camera_android.dart';
 
-// Mude só este IP quando trocar de rede
+import 'theme/app_colors.dart';
+import 'widgets/app_button.dart';
+import 'widgets/app_logo.dart';
+
 const String _ip = 'sinaliza-app-production.up.railway.app';
 
 class CameraPage extends StatefulWidget {
@@ -57,7 +60,7 @@ class _CameraPageState extends State<CameraPage> {
         'data': FieldValue.serverTimestamp(),
       });
     } catch (e) {
-      print('Erro ao salvar: $e');
+      debugPrint('Erro ao salvar: $e');
     }
   }
 
@@ -81,14 +84,12 @@ class _CameraPageState extends State<CameraPage> {
         final letra = data['letra'] as String? ?? '';
 
         if (detectado && letra.isNotEmpty) {
-          setState(() {
-            _resultado = letra;
-          });
+          setState(() => _resultado = letra);
           await _salvarNoFirestore(letra);
         }
       }
     } catch (e) {
-      print('Erro: $e');
+      debugPrint('Erro: $e');
     }
   }
 
@@ -100,72 +101,151 @@ class _CameraPageState extends State<CameraPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('SINALIZA'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
+        elevation: 0,
+        title: const AppLogo(size: 28, withBackground: false, white: true),
         actions: [
           IconButton(
+            tooltip: 'Histórico',
             onPressed: () {
               final usuario = FirebaseAuth.instance.currentUser;
               showModalBottomSheet(
                 context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(20)),
+                ),
                 builder: (context) => _HistoricoModal(uid: usuario?.uid),
               );
             },
-            icon: const Icon(Icons.history),
+            icon: const Icon(Icons.history_rounded),
           ),
           IconButton(
+            tooltip: 'Sair',
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushReplacementNamed(context, '/login');
+              final confirmar = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  backgroundColor: AppColors.surface,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  title: Text(
+                    'Sair da conta',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
+                        ),
+                  ),
+                  content: Text(
+                    'Tem certeza que deseja sair?',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: Text(
+                        'Cancelar',
+                        style: TextStyle(color: AppColors.textSecondary),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: Text(
+                        'Sair',
+                        style: TextStyle(
+                          color: AppColors.error,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+
+              if (confirmar == true) {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacementNamed(context, '/login');
+              }
             },
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.logout_rounded),
           ),
         ],
       ),
       body: Column(
         children: [
+          // Câmera
           Expanded(
             flex: 5,
             child: _carregando
-                ? const Center(child: CircularProgressIndicator())
-                : buildCameraView(),
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primary,
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                    child: buildCameraView(),
+                  ),
           ),
+
+          // Resultado
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            color: Colors.deepPurple.shade50,
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 32),
+            color: AppColors.background,
             child: Column(
               children: [
                 Text(
-                  _resultado.isEmpty ? '...' : _resultado,
-                  style: const TextStyle(
-                    fontSize: 60,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple,
+                  _resultado.isEmpty ? '—' : _resultado,
+                  style: theme.textTheme.displayLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: _resultado.isEmpty
+                        ? AppColors.border
+                        : AppColors.primary,
+                    letterSpacing: 2,
                   ),
                 ),
+                const SizedBox(height: 4),
                 Text(
                   _ativo ? 'Detectando...' : 'Câmera pausada',
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondary.withOpacity(0.6),
+                    letterSpacing: 0.2,
+                  ),
                 ),
               ],
             ),
           ),
+
+          // Botão
           Padding(
-            padding: const EdgeInsets.all(12),
-            child: ElevatedButton.icon(
-              onPressed: _carregando ? null : _toggleCamera,
-              icon: Icon(_ativo ? Icons.stop : Icons.play_arrow),
-              label: Text(_ativo ? 'Parar' : 'Iniciar reconhecimento'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
-                backgroundColor: _ativo ? Colors.red : Colors.deepPurple,
-                foregroundColor: Colors.white,
-              ),
+            padding: EdgeInsets.fromLTRB(
+              32,
+              0,
+              32,
+              28 + MediaQuery.of(context).padding.bottom,
             ),
+            child: _ativo
+                ? AppSecondaryButton(
+                    label: 'Parar reconhecimento',
+                    onPressed: _carregando ? null : _toggleCamera,
+                  )
+                : AppGradientButton(
+                    label: 'Iniciar reconhecimento',
+                    onPressed: _carregando ? null : _toggleCamera,
+                  ),
           ),
         ],
       ),
@@ -179,17 +259,32 @@ class _HistoricoModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
-      height: 400,
-      padding: const EdgeInsets.all(16),
+      height: 420,
+      padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
+      decoration: const BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
+          Container(
+            width: 40,
+            height: 4,
+            margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: AppColors.border,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          Text(
             'Histórico',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.deepPurple,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 16),
@@ -201,23 +296,47 @@ class _HistoricoModal extends StatelessWidget {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(child: Text('Nenhuma tradução ainda!'));
+                  return Center(
+                    child: Text(
+                      'Nenhuma tradução ainda.',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: AppColors.textSecondary.withOpacity(0.6),
+                      ),
+                    ),
+                  );
                 }
                 final docs = snapshot.data!.docs;
-                return ListView.builder(
+                return ListView.separated(
                   itemCount: docs.length,
+                  separatorBuilder: (_, __) => Divider(
+                    color: AppColors.border.withOpacity(0.5),
+                    height: 1,
+                  ),
                   itemBuilder: (context, index) {
-                    final item =
-                        docs[index].data() as Map<String, dynamic>;
+                    final item = docs[index].data() as Map<String, dynamic>;
                     return ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 4,
+                      ),
                       leading: CircleAvatar(
-                        backgroundColor: Colors.deepPurple,
+                        backgroundColor: AppColors.primary,
+                        radius: 20,
                         child: Text(
                           item['letra'],
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                      title: Text('Vogal: ${item['letra']}'),
+                      title: Text(
+                        'Vogal: ${item['letra']}',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: AppColors.textPrimary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     );
                   },
                 );

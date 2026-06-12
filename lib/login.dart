@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'widgets/app_logo.dart';
+import 'widgets/app_card.dart';
+import 'widgets/app_button.dart';
+import 'widgets/app_icon.dart';
+import 'theme/app_colors.dart';
 
 class LoginPage extends StatelessWidget {
   final txtEmail = TextEditingController();
@@ -9,174 +14,172 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F8FF),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEEEDFE),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.waving_hand_outlined,
-                        size: 36,
-                        color: Color(0xFF534AB7),
+                    const SizedBox(height: 48),
+                    const AppLogo(size: 72),
+                    const SizedBox(height: 14),
+                    Text(
+                      'Sinaliza',
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.displaySmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Olá!',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF26215C),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Acesse sua conta para continuar',
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: AppColors.textSecondary.withOpacity(0.7),
+                        letterSpacing: 0.1,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Faça login para usar o Sinaliza',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 36),
-                    TextField(
-                      controller: txtEmail,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        hintText: 'E-mail',
-                        prefixIcon: const Icon(Icons.email_outlined, color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: txtSenha,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'Senha',
-                        prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFFE8E8E8)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF534AB7)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          try {
-                            await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                              email: txtEmail.text.trim(),
-                              password: txtSenha.text.trim(),
-                            );
-                            print('LOGIN OK - navegando para camera');
-                            Navigator.pushReplacementNamed(context, '/camera');
-                          } catch (e) {
-                            print('ERRO LOGIN: $e');
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Erro: $e'),
-                                backgroundColor: Colors.red,
+                    const SizedBox(height: 40),
+                    AppCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          TextField(
+                            controller: txtEmail,
+                            keyboardType: TextInputType.emailAddress,
+                            autofillHints: const [AutofillHints.email],
+                            decoration: InputDecoration(
+                              labelText: 'E-mail',
+                              hintText: 'seuemail@exemplo.com',
+                              hintStyle: TextStyle(
+                                color: AppColors.textSecondary.withOpacity(0.35),
+                                fontSize: 13,
                               ),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF534AB7),
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(14),
+                                child: AppIcon(
+                                  icon: AppIcons.mail,
+                                  size: 16,
+                                  color: AppColors.support.withOpacity(0.8),
+                                ),
+                              ),
+                            ),
                           ),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          'Entrar',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
+                          const SizedBox(height: 12),
+                          TextField(
+                            controller: txtSenha,
+                            obscureText: true,
+                            autofillHints: const [AutofillHints.password],
+                            decoration: InputDecoration(
+                              labelText: 'Senha',
+                              hintText: 'Digite sua senha',
+                              hintStyle: TextStyle(
+                                color: AppColors.textSecondary.withOpacity(0.35),
+                                fontSize: 13,
+                              ),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(14),
+                                child: AppIcon(
+                                  icon: AppIcons.lock,
+                                  size: 16,
+                                  color: AppColors.support.withOpacity(0.8),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 28),
+                          AppGradientButton(
+                            label: 'Entrar',
+                            onPressed: () async {
+                              try {
+                                await FirebaseAuth.instance
+                                    .signInWithEmailAndPassword(
+                                  email: txtEmail.text.trim(),
+                                  password: txtSenha.text.trim(),
+                                );
+                                Navigator.pushReplacementNamed(context, '/welcome');
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Erro: $e'),
+                                    backgroundColor: AppColors.error,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                          const SizedBox(height: 4),
+                          Center(
+                            child: TextButton(
+                              onPressed: () async {
+                                if (txtEmail.text.trim().isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Digite seu e-mail primeiro!'),
+                                    ),
+                                  );
+                                  return;
+                                }
+                                await FirebaseAuth.instance
+                                    .sendPasswordResetEmail(
+                                  email: txtEmail.text.trim(),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('E-mail de recuperação enviado!'),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Esqueci minha senha',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: AppColors.secondary,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    TextButton(
-                      onPressed: () async {
-                        if (txtEmail.text.trim().isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Digite seu e-mail primeiro!')),
-                          );
-                          return;
-                        }
-                        await FirebaseAuth.instance.sendPasswordResetEmail(
-                          email: txtEmail.text.trim(),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('E-mail de recuperação enviado!')),
-                        );
-                      },
-                      child: const Text(
-                        'Esqueci minha senha',
-                        style: TextStyle(color: Color(0xFF534AB7), fontSize: 14),
-                      ),
-                    ),
+                    const SizedBox(height: 28),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'Não tem conta? ',
-                          style: TextStyle(color: Colors.grey, fontSize: 14),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
                         ),
-                        GestureDetector(
-                          onTap: () => Navigator.pushNamed(context, '/registro'),
-                          child: const Text(
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/registro'),
+                          child: Text(
                             'Registrar',
-                            style: TextStyle(
-                              color: Color(0xFF534AB7),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: AppColors.secondary,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 48),
                   ],
                 ),
               ),
