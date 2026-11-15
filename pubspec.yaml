@@ -28,3 +28,4 @@ flutter:
     - public/images/sinaliza-logo.png
     - public/images/sinaliza-logo-white.png 
     - public/icons/lucide/
+    - assets/respostas/

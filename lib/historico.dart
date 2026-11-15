@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'widgets/app_logo.dart';
 import 'widgets/app_card.dart';
 import 'widgets/app_icon.dart';
 import 'theme/app_colors.dart';
@@ -108,7 +107,7 @@ class _HistoricoPageState extends State<HistoricoPage> {
                             const SizedBox(width: 14),
                             Expanded(
                               child: Text(
-                                'Vogal reconhecida: ${item['letra']}',
+                                '${item['letra'].length > 1 ? 'Sinal' : 'Vogal'} reconhecido: ${item['letra']}',
                                 style: theme.textTheme.bodyLarge?.copyWith(
                                   color: AppColors.textPrimary,
                                   fontWeight: FontWeight.w500,
