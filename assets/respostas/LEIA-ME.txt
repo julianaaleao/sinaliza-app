@@ -1,0 +1,32 @@
+GIFs das respostas em LIBRAS
+============================
+
+Gravem cada resposta em vídeo com o celular (pessoa centralizada, fundo
+liso, boa luz, 2 a 4 segundos) e convertam com:
+
+    python backend/video_para_gif.py VIDEO.mp4 assets/respostas/NOME.gif
+
+Arquivos que o app procura (definidos em lib/frases.dart):
+
+  Olá, tudo bem?
+    sim_tudo_bem.gif        "Sim, tudo bem!"
+    nao_estou_bem.gif       "Não estou bem"
+
+  Qual seu nome?
+    meu_nome.gif            "Meu nome é..." (sinalize e soletre seu nome)
+    nao_entendi.gif         "Não entendi"
+
+  Onde é o banheiro?
+    direita.gif             "À direita"
+    esquerda.gif            "À esquerda"
+    em_frente.gif           "Em frente"
+    nao_sei.gif             "Não sei"   (usado em várias frases)
+
+  Quanto custa?
+    gratis.gif              "É grátis"
+    vou_chamar_alguem.gif   "Vou chamar alguém"
+
+  Que horas são?
+    agora_sao.gif           "Agora são..." (o app mostra a hora em números embaixo)
+
+Enquanto um GIF não existir, o app mostra um aviso no lugar dele.

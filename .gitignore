@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# SINALIZA: vídeos das frases (rostos das pessoas e vídeos de terceiros)
+# e o cache do importar_videos.py. Os pontos extraídos ficam em backend/dados_frases/.
+backend/videos_frases/
+# Modelo LSTM antigo, substituído por backend/modelo/modelo_lstm.keras
+backend/modelo/modelo_lstm.h5
