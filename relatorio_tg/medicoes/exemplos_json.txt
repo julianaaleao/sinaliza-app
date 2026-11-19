@@ -1,0 +1,29 @@
+{
+ "GET /saude": {
+  "ok": true,
+  "frases": true
+ },
+ "POST /reconhecer (1 frame do video QUE_HORAS/referencia)": {
+  "letra": "O",
+  "detectado": true
+ },
+ "POST /reconhecer_sequencia (8 frames)": {
+  "resultado": "O",
+  "gesto": "",
+  "letra": "O",
+  "confianca": 0.9997493864876693,
+  "detectado": true
+ },
+ "POST /reconhecer_frase (21 frames do video QUE_HORAS/referencia)": {
+  "frase": "",
+  "confianca": 0.5093636553480693,
+  "detectado": true,
+  "maos_visiveis": 1.0
+ },
+ "POST /reconhecer_frase (10 imagens pretas)": {
+  "frase": "",
+  "confianca": 0.0,
+  "detectado": false,
+  "maos_visiveis": 0.0
+ }
+}

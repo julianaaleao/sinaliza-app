@@ -15,6 +15,9 @@ import numpy as np
 # Uso: coloque os vídeos em backend/videos_frases/<FRASE>/<pessoa>.mp4
 # (ou <pessoa>_<numero>.mp4 quando a mesma pessoa gravou vários) e rode
 #   python backend/importar_videos.py
+# Vídeo com o mesmo sinal repetido várias vezes (sem cortar): termine o nome
+# com _rep, por exemplo maria_01_rep.mp4. Cada repetição vira um exemplo; a
+# pessoa precisa baixar os braços entre uma repetição e outra.
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'api'))
 from frases import FRASES, maos_do_resultado
@@ -130,7 +133,7 @@ for frase in FRASES:
             partes = [(0, len(maos))]
         else:
             partes = trechos(ativo, fps)
-            if UM_SINAL_POR_VIDEO and len(partes) > 1:
+            if UM_SINAL_POR_VIDEO and not base.endswith('_rep') and len(partes) > 1:
                 partes = [(partes[0][0], partes[-1][1])]
         margem = int(MARGEM * fps)
 

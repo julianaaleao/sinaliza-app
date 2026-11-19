@@ -1,0 +1,8 @@
+modelo;classe;n;precisao;revocacao;f1
+frases_4pessoas;OLA_TUDO_BEM;140;0.472;0.607;0.531
+frases_4pessoas;QUAL_SEU_NOME;175;0.841;0.789;0.814
+frases_4pessoas;ONDE_BANHEIRO;147;0.758;0.830;0.792
+frases_4pessoas;QUANTO_CUSTA;180;0.737;0.839;0.784
+frases_4pessoas;QUE_HORAS;147;0.672;0.585;0.625
+frases_4pessoas;NENHUM;1847;0.923;0.899;0.911
+frases_4pessoas;macro;;0.734;0.758;0.743

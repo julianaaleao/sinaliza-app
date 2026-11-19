@@ -49,3 +49,6 @@ app.*.map.json
 backend/videos_frases/
 # Modelo LSTM antigo, substituído por backend/modelo/modelo_lstm.keras
 backend/modelo/modelo_lstm.h5
+backend/testes_app/
+# Arquivos temporários do Word
+~$*

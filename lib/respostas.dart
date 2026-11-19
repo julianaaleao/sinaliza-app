@@ -76,16 +76,10 @@ Future<bool> mostrarRespostas(BuildContext context, Frase frase) async {
   return lerDeNovo ?? false;
 }
 
-String _horaAtual() {
-  final agora = DateTime.now();
-  final h = agora.hour.toString().padLeft(2, '0');
-  final m = agora.minute.toString().padLeft(2, '0');
-  return '$h:$m';
-}
-
 // Tela cheia com o GIF da resposta, virada para a pessoa surda ver
 Future<void> mostrarGif(BuildContext context, Resposta resposta) {
   final theme = Theme.of(context);
+  final gif = proximoGif(resposta);
   return showDialog(
     context: context,
     builder: (context) => Dialog.fullscreen(
@@ -104,13 +98,13 @@ Future<void> mostrarGif(BuildContext context, Resposta resposta) {
             Expanded(
               child: Center(
                 child: Image.asset(
-                  'assets/respostas/${resposta.gif}',
+                  'assets/respostas/$gif',
                   fit: BoxFit.contain,
                   gaplessPlayback: true,
                   errorBuilder: (context, _, __) => Padding(
                     padding: const EdgeInsets.all(32),
                     child: Text(
-                      'GIF ainda não gravado:\nassets/respostas/${resposta.gif}',
+                      'GIF ainda não gravado:\nassets/respostas/$gif',
                       textAlign: TextAlign.center,
                       style: const TextStyle(color: Colors.white70),
                     ),
@@ -118,14 +112,6 @@ Future<void> mostrarGif(BuildContext context, Resposta resposta) {
                 ),
               ),
             ),
-            if (resposta.mostraHora)
-              Text(
-                _horaAtual(),
-                style: theme.textTheme.displayLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
               child: Text(

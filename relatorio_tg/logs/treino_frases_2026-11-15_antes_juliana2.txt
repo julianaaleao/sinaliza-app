@@ -1,0 +1,31 @@
+=== SINALIZA - Treino das frases ===
+
+Gravações por frase:
+  OLA_TUDO_BEM      14  (joao, juliana, referencia)
+  QUAL_SEU_NOME     13  (joao, juliana, referencia)
+  ONDE_BANHEIRO     16  (joao, juliana, referencia)
+  QUANTO_CUSTA      18  (joao, juliana, referencia)
+  QUE_HORAS         13  (joao, juliana, referencia)
+  NENHUM           257  (joao, juliana, referencia, vogais)
+
+Validação por pessoa não vista (3 pessoas)...
+  parte 1: 79.0%
+  parte 2: 76.9%
+  parte 3: 89.9%
+Média: 81.9%
+
+Matriz de confusão (linhas = frase real):
+  OLA_TU QUAL_S ONDE_B QUANTO QUE_HO NENHUM
+     117      0      8      0      0     15  OLA_TUDO_BEM
+       1     76      9      6     30     21  QUAL_SEU_NOME
+       0      0    119      0      2     23  ONDE_BANHEIRO
+      32      0      6     61     29     16  QUANTO_CUSTA
+       4      0     31     11     93      4  QUE_HORAS
+      62      3     79      2     17   1102  NENHUM
+
+Treinando modelo final...
+Diferença numpy x Keras: 1.4e-07
+Classes: ['OLA_TUDO_BEM', 'QUAL_SEU_NOME', 'ONDE_BANHEIRO', 'QUANTO_CUSTA', 'QUE_HORAS', 'NENHUM']
+Pesos salvos em backend/api/modelo/frases_pesos.npz
+
+[exited with code 0]
