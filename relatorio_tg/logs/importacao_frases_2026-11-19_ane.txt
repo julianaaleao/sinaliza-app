@@ -1,0 +1,133 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795125608.239864   24008 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795125623.895040   24008 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+W0000 00:00:1795125640.037853   20488 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1795125640.053578   19672 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\jotam\Documents\sinaliza-app\backend\importar_videos.py:116: RuntimeWarning: All-NaN slice encountered
+  y = np.nanmin(maos[:, :, 1], axis=1)
+C:\Users\jotam\Documents\sinaliza-app\backend\importar_videos.py:126: RuntimeWarning: All-NaN slice encountered
+  tamanho_mao = np.nanmedian(np.nanmax(
+W0000 00:00:1795125640.601388   24272 landmark_projection_calculator.cc:81] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+OLA_TUDO_BEM    joao_01.mp4: 1 repetição(ões) de 7.0s
+OLA_TUDO_BEM    joao_02.mp4: 1 repetição(ões) de 5.2s
+OLA_TUDO_BEM    joao_03.mp4: 1 repetição(ões) de 5.8s
+OLA_TUDO_BEM    joao_04.mp4: 1 repetição(ões) de 5.8s
+OLA_TUDO_BEM    joao_05.mp4: 1 repetição(ões) de 3.5s
+OLA_TUDO_BEM    joao_06.mp4: 1 repetição(ões) de 4.9s
+OLA_TUDO_BEM    joao_07.mp4: 1 repetição(ões) de 7.9s
+OLA_TUDO_BEM    joao_08.mp4: 1 repetição(ões) de 5.8s
+OLA_TUDO_BEM    joao_09.mp4: 1 repetição(ões) de 4.6s
+OLA_TUDO_BEM    joao_10.mp4: 1 repetição(ões) de 5.4s
+OLA_TUDO_BEM    juliana_01.mp4: 1 repetição(ões) de 5.6s
+OLA_TUDO_BEM    juliana_02.mp4: 1 repetição(ões) de 4.7s
+OLA_TUDO_BEM    juliana_03.mp4: 1 repetição(ões) de 4.9s
+OLA_TUDO_BEM    referencia.mp4: 1 repetição(ões) de 4.5s
+QUAL_SEU_NOME   ane_01_rep.mp4: 8 repetição(ões) de 3.5s, 1.3s, 2.1s, 1.9s, 1.7s, 2.9s, 2.7s, 0.7s
+QUAL_SEU_NOME   joao_01.mp4: 1 repetição(ões) de 2.1s
+QUAL_SEU_NOME   joao_02.mp4: 1 repetição(ões) de 1.4s
+QUAL_SEU_NOME   joao_03.mp4: 1 repetição(ões) de 2.0s
+QUAL_SEU_NOME   joao_04.mp4: 1 repetição(ões) de 2.3s
+QUAL_SEU_NOME   joao_05.mp4: 1 repetição(ões) de 1.6s
+QUAL_SEU_NOME   joao_06.mp4: 1 repetição(ões) de 2.3s
+QUAL_SEU_NOME   joao_07.mp4: 1 repetição(ões) de 2.3s
+QUAL_SEU_NOME   joao_08.mp4: 1 repetição(ões) de 2.3s
+QUAL_SEU_NOME   juliana_01.mp4: 1 repetição(ões) de 1.9s
+QUAL_SEU_NOME   juliana_02.mp4: 1 repetição(ões) de 2.1s
+QUAL_SEU_NOME   juliana_03.mp4: 1 repetição(ões) de 2.0s
+QUAL_SEU_NOME   juliana_04.mp4: 1 repetição(ões) de 2.1s
+QUAL_SEU_NOME   juliana_05.mp4: 1 repetição(ões) de 2.4s
+QUAL_SEU_NOME   juliana_06.mp4: 1 repetição(ões) de 1.9s
+QUAL_SEU_NOME   juliana_07.mp4: 1 repetição(ões) de 2.2s
+QUAL_SEU_NOME   juliana_08.mp4: 1 repetição(ões) de 1.8s
+QUAL_SEU_NOME   juliana_09.mp4: 1 repetição(ões) de 2.0s
+QUAL_SEU_NOME   juliana_10.mp4: 1 repetição(ões) de 2.2s
+QUAL_SEU_NOME   juliana_11.mp4: 1 repetição(ões) de 2.6s
+QUAL_SEU_NOME   juliana_12.mp4: 1 repetição(ões) de 2.0s
+QUAL_SEU_NOME   juliana_13.mp4: 1 repetição(ões) de 2.0s
+QUAL_SEU_NOME   juliana_14.mp4: 1 repetição(ões) de 2.3s
+QUAL_SEU_NOME   juliana_15.mp4: 1 repetição(ões) de 2.1s
+QUAL_SEU_NOME   juliana_16.mp4: 1 repetição(ões) de 2.3s
+QUAL_SEU_NOME   juliana_17.mp4: 1 repetição(ões) de 1.9s
+QUAL_SEU_NOME   juliana_18.mp4: 1 repetição(ões) de 2.0s
+QUAL_SEU_NOME   juliana_19.mp4: 1 repetição(ões) de 1.8s
+QUAL_SEU_NOME   referencia.mp4: 1 repetição(ões) de 1.8s
+ONDE_BANHEIRO   ane_01_rep.mp4: 5 repetição(ões) de 2.3s, 2.4s, 2.3s, 2.3s, 2.6s
+ONDE_BANHEIRO   joao_01.mp4: 1 repetição(ões) de 2.9s
+ONDE_BANHEIRO   joao_02.mp4: 1 repetição(ões) de 3.2s
+ONDE_BANHEIRO   joao_03.mp4: 1 repetição(ões) de 2.6s
+ONDE_BANHEIRO   joao_04.mp4: 1 repetição(ões) de 3.5s
+ONDE_BANHEIRO   joao_05.mp4: 1 repetição(ões) de 3.0s
+ONDE_BANHEIRO   joao_06.mp4: 1 repetição(ões) de 3.9s
+ONDE_BANHEIRO   joao_07.mp4: 1 repetição(ões) de 2.9s
+ONDE_BANHEIRO   joao_08.mp4: 1 repetição(ões) de 3.1s
+ONDE_BANHEIRO   joao_09.mp4: 1 repetição(ões) de 6.6s
+ONDE_BANHEIRO   joao_10.mp4: 1 repetição(ões) de 3.3s
+ONDE_BANHEIRO   juliana_01.mp4: 1 repetição(ões) de 4.1s
+ONDE_BANHEIRO   juliana_02.mp4: 1 repetição(ões) de 3.2s
+ONDE_BANHEIRO   juliana_03.mp4: 1 repetição(ões) de 3.7s
+ONDE_BANHEIRO   juliana_04.mp4: 1 repetição(ões) de 3.4s
+ONDE_BANHEIRO   juliana_05.mp4: 1 repetição(ões) de 3.4s
+ONDE_BANHEIRO   referencia.mp4: 1 repetição(ões) de 2.5s
+QUANTO_CUSTA    ane_01_rep.mp4: 7 repetição(ões) de 10.7s, 1.5s, 0.9s, 3.8s, 2.2s, 1.9s, 1.9s
+QUANTO_CUSTA    joao_01.mp4: 1 repetição(ões) de 3.4s
+QUANTO_CUSTA    joao_02.mp4: 1 repetição(ões) de 3.9s
+QUANTO_CUSTA    joao_03.mp4: 1 repetição(ões) de 3.0s
+QUANTO_CUSTA    joao_04.mp4: 1 repetição(ões) de 3.7s
+QUANTO_CUSTA    joao_05.mp4: 1 repetição(ões) de 3.0s
+QUANTO_CUSTA    joao_06.mp4: 1 repetição(ões) de 3.0s
+QUANTO_CUSTA    joao_07.mp4: 1 repetição(ões) de 2.5s
+QUANTO_CUSTA    joao_08.mp4: 1 repetição(ões) de 3.4s
+QUANTO_CUSTA    joao_09.mp4: 1 repetição(ões) de 3.0s
+QUANTO_CUSTA    joao_10.mp4: 1 repetição(ões) de 4.1s
+QUANTO_CUSTA    juliana_01.mp4: 1 repetição(ões) de 2.1s
+QUANTO_CUSTA    juliana_02.mp4: 1 repetição(ões) de 2.1s
+QUANTO_CUSTA    juliana_03.mp4: 1 repetição(ões) de 2.2s
+QUANTO_CUSTA    juliana_04.mp4: 1 repetição(ões) de 2.1s
+QUANTO_CUSTA    juliana_05.mp4: 1 repetição(ões) de 2.4s
+QUANTO_CUSTA    juliana_06.mp4: 1 repetição(ões) de 2.3s
+QUANTO_CUSTA    juliana_07.mp4: 1 repetição(ões) de 2.1s
+QUANTO_CUSTA    juliana_08.mp4: 1 repetição(ões) de 2.7s
+QUANTO_CUSTA    juliana_09.mp4: 1 repetição(ões) de 2.1s
+QUANTO_CUSTA    juliana_10.mp4: 1 repetição(ões) de 2.3s
+QUANTO_CUSTA    juliana_11.mp4: 1 repetição(ões) de 2.0s
+QUANTO_CUSTA    juliana_12.mp4: 1 repetição(ões) de 2.2s
+QUANTO_CUSTA    juliana_13.mp4: 1 repetição(ões) de 2.5s
+QUANTO_CUSTA    juliana_14.mp4: 1 repetição(ões) de 2.5s
+QUANTO_CUSTA    referencia.mp4: 1 repetição(ões) de 2.2s
+QUE_HORAS       ane_01_rep.mp4: 3 repetição(ões) de 3.6s, 2.6s, 2.2s
+QUE_HORAS       ane_02_rep.mp4: 5 repetição(ões) de 3.5s, 3.6s, 2.1s, 2.5s, 2.7s
+QUE_HORAS       joao_01.mp4: 1 repetição(ões) de 3.8s
+QUE_HORAS       joao_02.mp4: 1 repetição(ões) de 3.6s
+QUE_HORAS       joao_03.mp4: 1 repetição(ões) de 4.0s
+QUE_HORAS       joao_04.mp4: 1 repetição(ões) de 4.2s
+QUE_HORAS       joao_05.mp4: 1 repetição(ões) de 3.4s
+QUE_HORAS       juliana_01.mp4: 1 repetição(ões) de 2.9s
+QUE_HORAS       juliana_02.mp4: 1 repetição(ões) de 2.8s
+QUE_HORAS       juliana_03.mp4: 1 repetição(ões) de 2.8s
+QUE_HORAS       juliana_04.mp4: 1 repetição(ões) de 3.1s
+QUE_HORAS       juliana_05.mp4: 1 repetição(ões) de 3.0s
+QUE_HORAS       juliana_06.mp4: 1 repetição(ões) de 2.2s
+QUE_HORAS       juliana_07.mp4: 1 repetição(ões) de 2.8s
+QUE_HORAS       referencia.mp4: 1 repetição(ões) de 2.7s
+NENHUM          joao_01.mp4: 1 repetição(ões) de 8.5s
+NENHUM          joao_02.mp4: 1 repetição(ões) de 10.1s
+NENHUM          joao_03.mp4: 1 repetição(ões) de 8.6s
+backend/videos_frases\NENHUM\joao_04.mp4: nenhuma mão encontrada
+NENHUM          joao_05.mp4: 1 repetição(ões) de 8.0s
+NENHUM          joao_06.mp4: 1 repetição(ões) de 9.6s
+NENHUM          juliana_01.mp4: 1 repetição(ões) de 4.2s
+NENHUM          juliana_02.mp4: 1 repetição(ões) de 6.2s
+NENHUM          juliana_03.mp4: 1 repetição(ões) de 5.6s
+NENHUM          juliana_04.mp4: 1 repetição(ões) de 5.0s
+NENHUM          juliana_05.mp4: 1 repetição(ões) de 5.7s
+NENHUM          juliana_06.mp4: 1 repetição(ões) de 5.7s
+NENHUM          juliana_07.mp4: 1 repetição(ões) de 4.0s
+NENHUM          juliana_08.mp4: 1 repetição(ões) de 5.8s
+NENHUM          juliana_09.mp4: 1 repetição(ões) de 5.8s
+NENHUM          juliana_10.mp4: 1 repetição(ões) de 6.6s
+NENHUM          juliana_11.mp4: 1 repetição(ões) de 5.7s
+NENHUM          juliana_12.mp4: 1 repetição(ões) de 4.6s
+
+466 exemplos salvos em backend/dados_frases/

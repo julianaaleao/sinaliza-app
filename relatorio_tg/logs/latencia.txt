@@ -1,0 +1,13 @@
+maquina: AMD64 Family 23 Model 24 Stepping 1, AuthenticAMD Windows 11 python 3.14.3
+vogais (/reconhecer_sequencia);8;decodificacao;5.2;3.2
+vogais (/reconhecer_sequencia);8;mediapipe;661.0;118.2
+vogais (/reconhecer_sequencia);8;preparo;3.0;0.7
+vogais (/reconhecer_sequencia);8;inferencia;24.7;18.9
+vogais (/reconhecer_sequencia);8;total;694.0;135.1
+vogais (/reconhecer_sequencia);8;tamanho_envio_kb_base64;71;
+frases (/reconhecer_frase);25;decodificacao;12.8;4.8
+frases (/reconhecer_frase);25;mediapipe;2710.8;388.6
+frases (/reconhecer_frase);25;preparo;5.1;1.5
+frases (/reconhecer_frase);25;inferencia;3.6;1.2
+frases (/reconhecer_frase);25;total;2732.3;392.1
+frases (/reconhecer_frase);25;tamanho_envio_kb_base64;220;

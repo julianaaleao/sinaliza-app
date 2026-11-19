@@ -36,6 +36,9 @@ modelo_path = os.path.join(base_dir, "hand_landmarker.task")
 modelo_pkl = os.path.join(base_dir, "modelo", "modelo.pkl")
 lstm_pesos = os.path.join(base_dir, "modelo", "lstm_pesos.npz")
 frases_pesos = os.path.join(base_dir, "modelo", "frases_pesos.npz")
+# Só para testes locais: se a pasta backend/testes_app existir, cada leitura
+# de frase é salva nela (pontos das mãos, resultado e miniaturas dos frames)
+pasta_testes = os.path.join(os.path.dirname(base_dir), "testes_app")
 
 # Probabilidade mínima para considerar que o gesto OI foi feito
 LIMIAR_GESTO = 0.9
@@ -166,6 +169,21 @@ def extrair_maos(imagem_base64):
     return maos_do_resultado(result)
 
 
+def salvar_teste(imagens, maos, tempos, probs):
+    nome = time.strftime("%Y%m%d_%H%M%S")
+    np.savez(os.path.join(pasta_testes, nome + ".npz"), maos=maos,
+             tempos=np.array(tempos if tempos is not None else []),
+             probs=probs, classes=np.array(classes_frases))
+    quadros = []
+    for img in imagens[::3]:
+        dados = np.frombuffer(base64.b64decode(img.split(",")[-1]), np.uint8)
+        quadro = cv2.imdecode(dados, cv2.IMREAD_COLOR)
+        if quadro is not None:
+            quadros.append(cv2.resize(quadro, (160, 120)))
+    if quadros:
+        cv2.imwrite(os.path.join(pasta_testes, nome + ".jpg"), np.hstack(quadros))
+
+
 @app.post("/reconhecer_frase")
 def reconhecer_frase(request: SequenciaRequest):
     """Recebe os frames de ~3s de vídeo e devolve qual frase foi sinalizada.
@@ -190,6 +208,8 @@ def reconhecer_frase(request: SequenciaRequest):
     confianca = float(probs[idx])
     if frase == 'NENHUM' or confianca < LIMIAR_FRASE:
         frase = ""
+    if os.path.isdir(pasta_testes):
+        salvar_teste(request.imagens, maos, tempos, probs)
 
     return {"frase": frase, "confianca": confianca, "detectado": True,
             "maos_visiveis": visiveis}

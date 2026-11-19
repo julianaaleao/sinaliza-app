@@ -1,0 +1,31 @@
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+=== SINALIZA - Treino das frases ===
+
+Gravações por frase:
+  OLA_TUDO_BEM      14  (joao, juliana, referencia)
+  QUAL_SEU_NOME     35  (ane, joao, juliana, referencia)
+  ONDE_BANHEIRO     21  (ane, joao, juliana, referencia)
+  QUANTO_CUSTA      30  (ane, joao, juliana, referencia)
+  QUE_HORAS         21  (ane, joao, juliana, referencia)
+  NENHUM           376  (ane, joao, juliana, referencia, vogais)
+
+Validação por pessoa não vista (4 pessoas)...
+  parte 1: 85.9%
+  parte 2: 85.3%
+  parte 3: 82.4%
+  parte 4: 87.9%
+Média: 85.4%
+
+Matriz de confusão (linhas = frase real):
+  OLA_TU QUAL_S ONDE_B QUANTO QUE_HO NENHUM
+      85      0     10     17      0     28  OLA_TUDO_BEM
+       1    138      0      6      7     23  QUAL_SEU_NOME
+       0      1    122      0      2     22  ONDE_BANHEIRO
+      14      2      0    151      0     13  QUANTO_CUSTA
+       0      2      0      7     86     52  QUE_HORAS
+      80     21     29     24     33   1660  NENHUM
+
+Treinando modelo final...
+Diferença numpy x Keras: 1.6e-07
+Classes: ['OLA_TUDO_BEM', 'QUAL_SEU_NOME', 'ONDE_BANHEIRO', 'QUANTO_CUSTA', 'QUE_HORAS', 'NENHUM']
+Pesos salvos em backend/api/modelo/frases_pesos.npz
