@@ -1,7 +1,8 @@
 fastapi
 uvicorn
-mediapipe==0.10.9
+# Mesma versão usada para extrair os pontos no treino (o MediaPipe já instala o OpenCV)
+mediapipe==0.10.33
+opencv-contrib-python==4.13.0.92
 scikit-learn==1.8.0
 numpy
 python-multipart
-opencv-python-headless==4.8.1.78
