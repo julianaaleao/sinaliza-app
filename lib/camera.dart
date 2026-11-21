@@ -151,7 +151,7 @@ class _CameraPageState extends State<CameraPage> {
       final tempos = <int>[];
       final relogio = Stopwatch()..start();
       while (relogio.elapsed < _janelaFrase) {
-        final base64Img = await capturarFrame(null, null);
+        final base64Img = await capturarFrame();
         if (base64Img != null) {
           imagens.add(base64Img);
           tempos.add(relogio.elapsedMilliseconds);
@@ -246,7 +246,7 @@ class _CameraPageState extends State<CameraPage> {
       final tempos = <int>[];
       final relogio = Stopwatch()..start();
       while (relogio.elapsed < _janela && valeAinda()) {
-        final base64Img = await capturarFrame(null, null);
+        final base64Img = await capturarFrame();
         if (base64Img != null) {
           imagens.add(base64Img);
           tempos.add(relogio.elapsedMilliseconds);

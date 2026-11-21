@@ -16,6 +16,8 @@ dependencies:
   http: ^1.2.2
   permission_handler: ^11.3.1
   flutter_svg: ^2.0.10
+  shared_preferences: ^2.5.6
+  wakelock_plus: ^1.8.2
 
 dev_dependencies:
   flutter_test:
@@ -29,3 +31,27 @@ flutter:
     - public/images/sinaliza-logo-white.png 
     - public/icons/lucide/
     - assets/respostas/
+
+  # Fontes do design (Google Fonts, licença OFL), em arquivos para
+  # funcionar offline e sem "piscar" a fonte padrão
+  fonts:
+    - family: Figtree
+      fonts:
+        - asset: assets/fonts/Figtree-400.ttf
+          weight: 400
+        - asset: assets/fonts/Figtree-500.ttf
+          weight: 500
+        - asset: assets/fonts/Figtree-600.ttf
+          weight: 600
+        - asset: assets/fonts/Figtree-700.ttf
+          weight: 700
+        - asset: assets/fonts/Figtree-800.ttf
+          weight: 800
+    - family: BricolageGrotesque
+      fonts:
+        - asset: assets/fonts/BricolageGrotesque-600.ttf
+          weight: 600
+        - asset: assets/fonts/BricolageGrotesque-700.ttf
+          weight: 700
+        - asset: assets/fonts/BricolageGrotesque-800.ttf
+          weight: 800

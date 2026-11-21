@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/tokens.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 
@@ -35,7 +36,7 @@ class AppLogo extends StatelessWidget {
       width: size,
       height: size,
       decoration: const BoxDecoration(
-        gradient: AppGradients.highlight,
+        gradient: Gradientes.primario,
         shape: BoxShape.circle,
       ),
       child: Container(

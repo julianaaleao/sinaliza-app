@@ -3,7 +3,34 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Histórico de traduções: cada usuário só acessa os próprios registros
+    // Conversas (histórico do novo design): uma por sessão, com a lista
+    // de mensagens. Cada usuário só acessa as próprias conversas.
+    match /conversas/{docId} {
+      function mensagensValidas() {
+        return request.resource.data.mensagens is list
+            && request.resource.data.mensagens.size() <= 400;
+      }
+
+      allow read, delete: if request.auth != null
+                          && resource.data.uid == request.auth.uid;
+
+      allow create: if request.auth != null
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.keys().hasOnly(['uid', 'inicio', 'atualizado', 'mensagens'])
+                    && request.resource.data.inicio == request.time
+                    && request.resource.data.atualizado == request.time
+                    && mensagensValidas();
+
+      // Só troca as mensagens e a data de atualização
+      allow update: if request.auth != null
+                    && resource.data.uid == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['mensagens', 'atualizado'])
+                    && request.resource.data.atualizado == request.time
+                    && mensagensValidas();
+    }
+
+    // Histórico antigo (antes do redesign): o app não grava mais aqui,
+    // mas os registros continuam acessíveis ao dono
     match /historico/{docId} {
       allow read, delete: if request.auth != null
                           && resource.data.uid == request.auth.uid;
