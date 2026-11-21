@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'profile.dart';
 import 'telas/abertura.dart';
+import 'telas/ajustes.dart';
 import 'telas/boas_vindas.dart';
 import 'telas/cadastro.dart';
 import 'telas/historico.dart';
 import 'telas/historico_detalhe.dart';
 import 'telas/login.dart';
 import 'telas/permissao_camera.dart';
+import 'telas/privacidade.dart';
 import 'telas/reconhecimento/reconhecimento.dart';
 import 'telas/recuperar_senha.dart';
 import 'telas/rotas.dart';
@@ -39,7 +40,9 @@ class App extends StatelessWidget {
       case Rotas.historicoDetalhe:
         tela = HistoricoDetalhePage(id: arg is String ? arg : '');
       case Rotas.ajustes:
-        tela = const ProfilePage();
+        tela = const AjustesPage();
+      case Rotas.privacidade:
+        tela = const PrivacidadePage();
       default:
         tela = const AberturaPage();
     }
