@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'app.dart';
+import 'servicos/ajustes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,5 +21,17 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
+  await Ajustes.instancia.carregar();
+  _travarRetratoNoCelular();
   runApp(const App());
+}
+
+// Celular fica em retrato; tablet aceita retrato e paisagem
+void _travarRetratoNoCelular() {
+  if (kIsWeb) return;
+  final tela = PlatformDispatcher.instance.views.first;
+  final menorLado = tela.physicalSize.shortestSide / tela.devicePixelRatio;
+  if (menorLado < 600) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
 }
