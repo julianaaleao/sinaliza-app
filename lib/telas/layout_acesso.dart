@@ -23,7 +23,11 @@ class LayoutAcesso extends StatelessWidget {
     this.sobreposicao = 32,
     this.cantosIguais = false,
     this.gradiente = Gradientes.marca,
+    this.decoracao = true,
   });
+
+  // Círculos e marca d'água no topo (as telas de permissão não usam)
+  final bool decoracao;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +48,13 @@ class LayoutAcesso extends StatelessWidget {
                         altura: alturaTopo,
                         cantosIguais: cantosIguais,
                         gradiente: gradiente,
+                        decoracao: decoracao,
                         child: topo,
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20,
-                            seguro.top + alturaTopo - sobreposicao, 20, 0),
+                            topoSeguro(context) + alturaTopo - sobreposicao,
+                            20, 0),
                         child: Center(
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 440),

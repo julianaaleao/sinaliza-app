@@ -117,6 +117,11 @@ class FundoMarca extends StatelessWidget {
   }
 }
 
+// Área segura do topo, com um respiro mínimo quando o sistema não tem
+// (ex.: navegador)
+double topoSeguro(BuildContext context) =>
+    math.max(MediaQuery.paddingOf(context).top, 16);
+
 // Topo azul das telas de acesso: canto inferior esquerdo 56, direito 140
 class TopoAzul extends StatelessWidget {
   final double altura;
@@ -135,7 +140,7 @@ class TopoAzul extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topo = MediaQuery.paddingOf(context).top;
+    final topo = topoSeguro(context);
     return SizedBox(
       height: altura + topo,
       child: ClipRRect(

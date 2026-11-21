@@ -101,6 +101,7 @@ class _PermissaoCameraPageState extends State<PermissaoCameraPage>
       alturaTopo: 330 - 44,
       sobreposicao: -32,
       gradiente: gradiente,
+      decoracao: false,
       topo: OverflowBox(
         maxHeight: 330,
         child: Center(

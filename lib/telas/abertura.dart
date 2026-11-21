@@ -32,7 +32,9 @@ class _AberturaPageState extends State<AberturaPage> {
       usuario = FirebaseAuth.instance.currentUser;
     }
     await espera;
-    if (!mounted) return;
+    // Se o app abriu direto em outra rota (ex.: link no navegador), a
+    // abertura fica embaixo e não redireciona
+    if (!mounted || !(ModalRoute.of(context)?.isCurrent ?? true)) return;
     if (usuario == null) {
       Navigator.pushReplacementNamed(context, Rotas.login);
     } else {
