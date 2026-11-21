@@ -50,9 +50,10 @@ final List<Frase> frases = [
     _naoSei,
   ]),
   Frase('QUE_HORAS', 'Que horas são?', [
-    _dos2('É 1 hora', 'uma_hora'),
-    _dos2('São 2 horas', 'duas_horas'),
-    _dos2('São 3 horas', 'tres_horas'),
+    // Só a Juliana: nas gravações do João a contagem das horas não ficou certa
+    const Resposta('É 1 hora', ['uma_hora_juliana.gif']),
+    const Resposta('São 2 horas', ['duas_horas_juliana.gif']),
+    const Resposta('São 3 horas', ['tres_horas_juliana.gif']),
     _naoSei,
   ]),
 ];

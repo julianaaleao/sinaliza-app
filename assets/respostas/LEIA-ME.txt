@@ -26,8 +26,8 @@ Arquivos que o app usa (definidos em lib/frases.dart):
     gratis_juliana.gif / gratis_joao.gif                  "É de graça"
 
   Que horas são?
-    uma_hora_juliana.gif / uma_hora_joao.gif              "É 1 hora"
-    duas_horas_juliana.gif / duas_horas_joao.gif          "São 2 horas"
-    tres_horas_juliana.gif / tres_horas_joao.gif          "São 3 horas"
+    uma_hora_juliana.gif                                  "É 1 hora" (só a Juliana)
+    duas_horas_juliana.gif                                "São 2 horas" (só a Juliana)
+    tres_horas_juliana.gif                                "São 3 horas" (só a Juliana)
 
 Enquanto um GIF não existir, o app mostra um aviso no lugar dele.
