@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'camera.dart';
+import 'historico.dart';
+import 'profile.dart';
 import 'telas/abertura.dart';
+import 'telas/reconhecimento/reconhecimento.dart';
 import 'telas/boas_vindas.dart';
 import 'telas/cadastro.dart';
 import 'telas/login.dart';
@@ -30,7 +32,11 @@ class App extends StatelessWidget {
       case Rotas.permissaoCamera:
         tela = PermissaoCameraPage(negada: arg == true);
       case Rotas.home:
-        tela = const CameraPage();
+        tela = const ReconhecimentoPage();
+      case Rotas.historico:
+        tela = const HistoricoPage();
+      case Rotas.ajustes:
+        tela = const ProfilePage();
       default:
         tela = const AberturaPage();
     }
