@@ -29,18 +29,20 @@ Future<bool> confirmarPerigo(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 420),
             child: Material(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(32),
-              elevation: 0,
+              type: MaterialType.transparency,
               child: Container(
                 padding: const EdgeInsets.fromLTRB(20, 26, 20, 18),
+                // A cor fica no mesmo Container da sombra para a sombra
+                // ficar só por fora do cartão
                 decoration: BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(32),
                   boxShadow: Sombras.dialogo,
                 ),
                 child: Semantics(
                   scopesRoute: true,
                   namesRoute: true,
+                  explicitChildNodes: true,
                   label: titulo,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
