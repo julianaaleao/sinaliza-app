@@ -55,8 +55,14 @@ Future<void> initCamera({bool frontal = true}) async {
     ..style.objectFit = 'cover';
 
   if (!_registrada) {
-    ui.platformViewRegistry
-        .registerViewFactory('camera-view', (int viewId) => _video!);
+    // O mesmo <video> é reaproveitado sempre que a câmera muda de lugar
+    // na tela (ex.: tela de Conversa). Ao ser movido, o navegador pausa o
+    // vídeo e as capturas ficariam congeladas, então ele volta a tocar.
+    _video!.onPause.listen((_) => _retomarDepois());
+    ui.platformViewRegistry.registerViewFactory('camera-view', (int viewId) {
+      _retomarDepois();
+      return _video!;
+    });
     _registrada = true;
   }
 
@@ -82,6 +88,22 @@ Future<void> initCamera({bool frontal = true}) async {
       onTimeout: () {});
 }
 
+// Volta a tocar se o vídeo parou com a câmera ainda ligada. Espera um
+// pouco porque o elemento pode estar fora da página no meio da troca.
+void _retomarDepois() {
+  Timer(const Duration(milliseconds: 60), _retomar);
+}
+
+Future<void> _retomar() async {
+  final v = _video;
+  if (v == null || _stream == null || !v.paused) return;
+  try {
+    await v.play();
+  } catch (_) {
+    // Ainda fora da página: tenta de novo na próxima captura
+  }
+}
+
 Future<void> pararCamera() async {
   _pronta = false;
   _stream?.getTracks().forEach((t) => t.stop());
@@ -95,6 +117,8 @@ Widget buildCameraView() {
 
 Future<String?> capturarFrame() async {
   if (_video == null || !_pronta) return null;
+  // Garantia extra: nunca capturar de um vídeo parado (quadro congelado)
+  if (_video!.paused) await _retomar();
   _canvas.context2D.drawImageScaled(_video!, 0, 0, 320, 240);
   final dataUrl = _canvas.toDataUrl('image/jpeg', 0.7);
   return dataUrl.split(',')[1];
